@@ -1,0 +1,284 @@
+{
+  "info": {
+    "name": "EcoMarket API",
+    "description": "Colección de endpoints del backend de EcoMarket — Trabajo Práctico Integrador, Taller de Construcción de Software (INF243), UES21 2026.\n\n## Cómo usar\n\n1. Levantar el backend (por defecto en http://localhost:8080).\n2. Las requests usan la variable {{baseUrl}} — viene configurada como http://localhost:8080.\n3. Orden sugerido para probar el flujo completo:\n   - Listar productos\n   - Crear carrito\n   - Agregar items al carrito\n   - Ver carrito\n   - Confirmar orden\n   - Ver historial de órdenes\n\nLa request \"Crear carrito\" guarda automáticamente el id en la variable {{carritoId}} usando un script de tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "ecomarket-api-collection-2026"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "carritoId", "value": "" },
+    { "key": "itemId", "value": "" },
+    { "key": "productoId", "value": "1" },
+    { "key": "ordenId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Productos",
+      "description": "CRUD del catálogo de productos.",
+      "item": [
+        {
+          "name": "Listar productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            },
+            "description": "Devuelve todos los productos activos del catálogo."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener producto por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Termo de bambú 500ml\",\n  \"descripcion\": \"Termo ecológico con mango de bambú y interior de acero.\",\n  \"precio\": 7500.00,\n  \"stock\": 40,\n  \"categoria\": \"Hogar\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            },
+            "description": "Crea un nuevo producto. Devuelve 201 Created."
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Cepillo de bambú XL\",\n  \"descripcion\": \"Versión más grande del cepillo biodegradable.\",\n  \"precio\": 1800.00,\n  \"stock\": 150,\n  \"categoria\": \"Higiene\",\n  \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar producto (soft delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            },
+            "description": "Marca el producto como inactivo. Devuelve 204 No Content."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Carrito",
+      "description": "Gestión del carrito de compras.",
+      "item": [
+        {
+          "name": "Crear carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('carritoId', json.id);",
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                  "pm.test('Devuelve id', function () { pm.expect(json.id).to.be.a('number'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carritos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carritos"]
+            },
+            "description": "Crea un nuevo carrito vacío. El id devuelto se guarda en la variable {{carritoId}}."
+          },
+          "response": []
+        },
+        {
+          "name": "Ver carrito",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carritos/{{carritoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carritos", "{{carritoId}}"]
+            },
+            "description": "Devuelve los ítems del carrito + total calculado."
+          },
+          "response": []
+        },
+        {
+          "name": "Agregar item al carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.items && json.items.length > 0) {",
+                  "  pm.collectionVariables.set('itemId', json.items[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": 1,\n  \"cantidad\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/carritos/{{carritoId}}/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carritos", "{{carritoId}}", "items"]
+            },
+            "description": "Agrega un producto al carrito. Si el producto ya estaba, suma la cantidad. El id del item se guarda en {{itemId}}."
+          },
+          "response": []
+        },
+        {
+          "name": "Modificar cantidad de item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/carritos/{{carritoId}}/items/{{itemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carritos", "{{carritoId}}", "items", "{{itemId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar item del carrito",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/carritos/{{carritoId}}/items/{{itemId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "carritos", "{{carritoId}}", "items", "{{itemId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Órdenes",
+      "description": "Confirmación de pedidos e historial.",
+      "item": [
+        {
+          "name": "Confirmar orden",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('ordenId', json.id);",
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                  "pm.test('Tiene total > 0', function () { pm.expect(Number(json.total)).to.be.above(0); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carritoId\": {{carritoId}},\n  \"mensaje\": \"Por favor entregar después de las 18hs. ¡Gracias!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes"]
+            },
+            "description": "Confirma el carrito como una orden. Descuenta stock y marca el carrito como confirmado."
+          },
+          "response": []
+        },
+        {
+          "name": "Historial de órdenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes"]
+            },
+            "description": "Devuelve todas las órdenes, más recientes primero."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener orden por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ordenes", "{{ordenId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
