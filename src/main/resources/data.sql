@@ -1,6 +1,3 @@
--- Productos de ejemplo para EcoMarket
--- Se cargan automáticamente al iniciar (spring.sql.init.mode=always)
-
 INSERT INTO producto (nombre, descripcion, precio, stock, categoria, activo) VALUES
 ('Cepillo de bambú', 'Cepillo de dientes biodegradable hecho con mango de bambú sostenible.', 1500.00, 120, 'Higiene', true),
 ('Botella de acero inoxidable 750ml', 'Botella reutilizable libre de BPA, mantiene la temperatura hasta 12 horas.', 8900.00, 75, 'Hogar', true),

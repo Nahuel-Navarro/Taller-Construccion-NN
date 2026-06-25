@@ -9,20 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Endpoints para el carrito de compras.
- *
- *   POST   /api/carritos                       → crear carrito (devuelve id)
- *   GET    /api/carritos/{id}                  → ver contenido + total
- *   POST   /api/carritos/{id}/items            → agregar item
- *   PUT    /api/carritos/{id}/items/{itemId}   → modificar cantidad
- *   DELETE /api/carritos/{id}/items/{itemId}   → eliminar item
- */
 @RestController
 @RequestMapping("/api/carritos")
 @RequiredArgsConstructor
 public class CarritoController {
-
     private final CarritoService carritoService;
 
     @PostMapping

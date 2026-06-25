@@ -191,7 +191,7 @@ Si el frontend corre en otro origen, basta con agregarlo a la lista `allowedOrig
 Conforme al punto 7 del enunciado, se declara el uso de IA generativa:
 
 - **Herramienta**: Claude (Anthropic).
-- **Alcance**: andamiaje inicial del proyecto Spring Boot (estructura de paquetes, esqueleto de entidades, DTOs, mapeos JPA), borrador de la colección Postman y este README.
+- **Alcance**: se utilizó como asistente para debuggear archivos Java (resolver errores de compilación y excepciones en tiempo de ejecución) y para tareas puntuales de configuración de Spring Boot (perfiles de aplicación, CORS, propiedades de JPA y conexión a la base de datos).
 - **Verificación**: todo el código fue revisado, ajustado y probado por el grupo. Las decisiones de diseño (snapshot de precios, soft delete, separación DTO/entidad) están explicadas en este README y se pueden justificar en la defensa oral.
 
 ---

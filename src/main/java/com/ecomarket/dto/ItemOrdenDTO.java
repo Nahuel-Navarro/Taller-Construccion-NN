@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ItemOrdenDTO {
-
     private Long id;
     private Long productoId;
     private String nombreProducto;

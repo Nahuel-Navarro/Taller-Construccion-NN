@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AgregarItemDTO {
-
     @NotNull(message = "productoId es obligatorio")
     private Long productoId;
 

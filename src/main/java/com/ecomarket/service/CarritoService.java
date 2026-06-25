@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @Transactional
 public class CarritoService {
-
     private final CarritoRepository carritoRepository;
     private final ItemCarritoRepository itemCarritoRepository;
     private final ProductoService productoService;
@@ -43,7 +42,6 @@ public class CarritoService {
         }
         validarStock(producto, dto.getCantidad());
 
-        // Si el producto ya está en el carrito, sumamos la cantidad
         ItemCarrito existente = carrito.getItems().stream()
                 .filter(i -> i.getProducto().getId().equals(producto.getId()))
                 .findFirst()
@@ -93,12 +91,9 @@ public class CarritoService {
         return toDTO(carritoRepository.save(carrito));
     }
 
-    /** Acceso interno para OrdenService. */
     public Carrito buscarEntidadOFallar(Long id) {
         return buscarOFallar(id);
     }
-
-    // ---------- helpers internos ----------
 
     private Carrito buscarOFallar(Long id) {
         return carritoRepository.findById(id)

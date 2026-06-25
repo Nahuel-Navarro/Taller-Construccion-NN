@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ProductoDTO {
-
     private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")

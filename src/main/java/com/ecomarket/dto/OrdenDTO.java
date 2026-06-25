@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrdenDTO {
-
     private Long id;
     private LocalDateTime fechaConfirmacion;
     private String mensaje;

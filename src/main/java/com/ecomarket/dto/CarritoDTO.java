@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CarritoDTO {
-
     private Long id;
     private LocalDateTime fechaCreacion;
     private Boolean confirmado;

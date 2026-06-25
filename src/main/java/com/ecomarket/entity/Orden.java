@@ -8,11 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Orden de compra confirmada.
- * Es un snapshot inmutable: los precios e ítems quedan congelados al momento
- * de la confirmación, aunque los productos cambien después.
- */
 @Entity
 @Table(name = "orden")
 @Getter
@@ -21,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Orden {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

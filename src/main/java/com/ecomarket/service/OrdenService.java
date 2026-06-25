@@ -21,19 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class OrdenService {
-
     private final OrdenRepository ordenRepository;
     private final CarritoRepository carritoRepository;
     private final ProductoRepository productoRepository;
     private final CarritoService carritoService;
 
-    /**
-     * Confirma un carrito como orden de compra:
-     *  1. Valida que el carrito exista, no esté confirmado y tenga ítems.
-     *  2. Toma snapshot de cada ítem (nombre + precio del momento).
-     *  3. Descuenta stock de los productos.
-     *  4. Marca el carrito como confirmado.
-     */
     public OrdenDTO confirmar(ConfirmarOrdenDTO dto) {
         Carrito carrito = carritoService.buscarEntidadOFallar(dto.getCarritoId());
 
@@ -44,7 +36,6 @@ public class OrdenService {
             throw new BusinessException("No se puede confirmar un carrito vacío");
         }
 
-        // Re-validar stock contra el estado actual de los productos
         for (ItemCarrito it : carrito.getItems()) {
             Producto p = it.getProducto();
             if (!Boolean.TRUE.equals(p.getActivo())) {
@@ -79,7 +70,6 @@ public class OrdenService {
                     .build();
             itemsOrden.add(io);
 
-            // Descontar stock
             p.setStock(p.getStock() - it.getCantidad());
             productoRepository.save(p);
 
@@ -90,7 +80,6 @@ public class OrdenService {
         orden.setTotal(total);
         Orden persistida = ordenRepository.save(orden);
 
-        // Marcar el carrito como confirmado
         carrito.setConfirmado(true);
         carritoRepository.save(carrito);
 

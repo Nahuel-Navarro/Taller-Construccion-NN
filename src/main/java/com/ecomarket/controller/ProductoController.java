@@ -10,20 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Endpoints para la gestión del catálogo de productos.
- *
- *   GET    /api/productos       → listar
- *   GET    /api/productos/{id}  → obtener uno
- *   POST   /api/productos       → crear
- *   PUT    /api/productos/{id}  → actualizar
- *   DELETE /api/productos/{id}  → eliminar (soft)
- */
 @RestController
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ProductoController {
-
     private final ProductoService productoService;
 
     @GetMapping

@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ActualizarItemDTO {
-
     @NotNull(message = "cantidad es obligatoria")
     @Min(value = 1, message = "La cantidad mínima es 1")
     private Integer cantidad;

@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ErrorDTO {
-
     private LocalDateTime timestamp;
     private int status;
     private String error;

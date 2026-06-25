@@ -5,10 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-/**
- * Producto del catálogo de EcoMarket.
- * Representa un artículo sostenible disponible para la venta.
- */
 @Entity
 @Table(name = "producto")
 @Getter
@@ -17,7 +13,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class Producto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +32,6 @@ public class Producto {
     @Column(length = 60)
     private String categoria;
 
-    /** Soft-delete flag: permite "eliminar" sin perder historial de órdenes. */
     @Column(nullable = false)
     private Boolean activo = true;
 }

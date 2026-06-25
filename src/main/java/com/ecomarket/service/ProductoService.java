@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class ProductoService {
-
     private final ProductoRepository productoRepository;
 
     @Transactional(readOnly = true)
@@ -55,17 +54,12 @@ public class ProductoService {
         return toDTO(productoRepository.save(p));
     }
 
-    /**
-     * Soft delete: marca el producto como inactivo en lugar de borrarlo.
-     * Así las órdenes históricas que lo referencian siguen siendo consistentes.
-     */
     public void eliminar(Long id) {
         Producto p = buscarOFallar(id);
         p.setActivo(false);
         productoRepository.save(p);
     }
 
-    /** Acceso interno para otros servicios (no expuesto en la API). */
     public Producto buscarEntidadOFallar(Long id) {
         return buscarOFallar(id);
     }

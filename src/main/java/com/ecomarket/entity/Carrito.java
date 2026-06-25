@@ -7,10 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Carrito de compras. Contiene ítems que se irán agregando,
- * modificando o eliminando hasta que se confirma como Orden.
- */
 @Entity
 @Table(name = "carrito")
 @Getter
@@ -19,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Carrito {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +22,6 @@ public class Carrito {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
 
-    /** Marca si el carrito ya fue confirmado como orden (no se debe seguir editando). */
     @Column(nullable = false)
     private Boolean confirmado = false;
 

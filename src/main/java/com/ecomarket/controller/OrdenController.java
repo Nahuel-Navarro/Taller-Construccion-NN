@@ -10,18 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Endpoints para confirmar pedidos y consultar el historial.
- *
- *   POST /api/ordenes        → confirmar carrito como orden
- *   GET  /api/ordenes        → historial de órdenes (más recientes primero)
- *   GET  /api/ordenes/{id}   → detalle de una orden
- */
 @RestController
 @RequestMapping("/api/ordenes")
 @RequiredArgsConstructor
 public class OrdenController {
-
     private final OrdenService ordenService;
 
     @PostMapping
